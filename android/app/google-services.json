@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68394056912",
+    "project_id": "trekguide-73723",
+    "storage_bucket": "trekguide-73723.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68394056912:android:1adf8f57f127b3229a32d5",
+        "android_client_info": {
+          "package_name": "com.example.trekking_guide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUpjC-SPjPey9POWM2dhtTycS12EQySYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
