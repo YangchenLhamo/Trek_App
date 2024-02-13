@@ -606,7 +606,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future registerUser(String url) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    // User? user = FirebaseAuth.instance.currentUser;
+
 
     auth
         .createUserWithEmailAndPassword(

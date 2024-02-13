@@ -531,47 +531,7 @@ class _AddTrekkingPlacesState extends State<AddTrekkingPlaces> {
                       ),
                     ),
                     SizedBox(height: getVerticalSize(20)),
-                    // ElevatedButton(
-                    //   onPressed: () async {
-                    //     if (_formKey.currentState?.validate() ?? false) {
-                    //       // Upload images to Firebase Storage
-                    //       await _uploadImagesToStorage();
-
-                    //       // Save data to Firestore
-                    //       try {
-                    //         await FirebaseFirestore.instance
-                    //             .collection('TrekkingPlaces')
-                    //             .doc(nameController
-                    //                 .text) // Use name as document name
-                    //             .set({
-                    //           'name': nameController.text,
-                    //           'Description': descriptionController.text,
-                    //           'price': priceController.text,
-                    //           'Images': images, // Add image URLs to Firestore
-                    //         });
-                    //         // Process successful submission
-                    //         ScaffoldMessenger.of(context).showSnackBar(
-                    //           const SnackBar(
-                    //             content: Text('Data Submitted Successfully'),
-                    //           ),
-                    //         );
-                    //         // back to home page
-                    //         Navigator.of(context).pop();
-
-                    //         print('Data submitted successfully');
-                    //       } catch (e) {
-                    //         // Handle errors
-                    //         print('Error submitting data: $e');
-                    //       }
-                    //     }
-                    //   },
-                    //   style: ElevatedButton.styleFrom(
-                    //       backgroundColor: CustomColors.primaryColor),
-                    //   child: Text(
-                    //     'Submit',
-                    //     style: Styles.textWhite20,
-                    //   ),
-                    // ),
+                   
 
                     // for preview images
                     _imagesPreview.isNotEmpty

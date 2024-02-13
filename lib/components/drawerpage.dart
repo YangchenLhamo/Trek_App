@@ -72,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   const AssetImage('assets/annapurna_trek.jpg'),
                             )
                           : null
-            
+
                       // const AssetImage('assets/annapurna_trek.jpg'),
                       ),
                   const SizedBox(height: 20),
@@ -83,48 +83,86 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.info,size: getSize(30), color: CustomColors.primaryColor,),
-            title:  Text('About Us', style: Styles.textBlack20,),
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AboutUsPage()));
-            },
-          ),
-          ListTile(
-            leading:  Icon(Icons.home,size: getSize(30), color: CustomColors.primaryColor,),
-            title:  Text('Home',style: Styles.textBlack20,),
+            leading: Icon(
+              Icons.home,
+              size: getSize(30),
+              color: CustomColors.primaryColor,
+            ),
+            title: Text(
+              'Home',
+              style: Styles.textBlack20,
+            ),
             onTap: () {
               // Navigate to the dashboard page (same page)
               Navigator.pop(context);
             },
           ),
-          
           ListTile(
-            leading: Icon(Icons.person, size: getSize(30), color: CustomColors.primaryColor,),
-            title: Text(FirebaseAuth.instance.currentUser?.email ==
-                        'admin@gmail.com' ? 'Profiles' : 'Profile',style: Styles.textBlack20,),
+            leading: Icon(
+              Icons.person,
+              size: getSize(30),
+              color: CustomColors.primaryColor,
+            ),
+            title: Text(
+              FirebaseAuth.instance.currentUser?.email == 'admin@gmail.com'
+                  ? 'Profiles'
+                  : 'Profile',
+              style: Styles.textBlack20,
+            ),
             onTap: () {
-              if(FirebaseAuth.instance.currentUser?.email ==
-                        'admin@gmail.com') {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageProfilePage()));
+              if (FirebaseAuth.instance.currentUser?.email ==
+                  'admin@gmail.com') {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ManageProfilePage()));
               } else {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               }
             },
           ),
           ListTile(
-            leading: Icon(Icons.home,size: getSize(30), color: CustomColors.primaryColor,),
-            title:  Text('Tips/FAQs', style: Styles.textBlack20,),
+            leading: Icon(
+              Icons.tips_and_updates,
+              size: getSize(30),
+              color: CustomColors.primaryColor,
+            ),
+            title: Text(
+              'Tips/FAQs',
+              style: Styles.textBlack20,
+            ),
             onTap: () {
-             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TipsFaqPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => TipsFaqPage()));
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.info,
+              size: getSize(30),
+              color: CustomColors.primaryColor,
+            ),
+            title: Text(
+              'About Us',
+              style: Styles.textBlack20,
+            ),
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AboutUsPage()));
             },
           ),
           const SizedBox(
             height: 210,
           ),
           ListTile(
-            leading:  Icon(Icons.logout,size: getSize(30), color: CustomColors.primaryColor,),
-            title:  Text('LogOut',style: Styles.textBlack20,),
+            leading: Icon(
+              Icons.logout,
+              size: getSize(30),
+              color: CustomColors.primaryColor,
+            ),
+            title: Text(
+              'LogOut',
+              style: Styles.textBlack20,
+            ),
             onTap: () async {
               FirebaseAuth auth = FirebaseAuth.instance;
               await auth.signOut().then((value) {
@@ -138,7 +176,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   content: Text('LogOut Sucessfully'),
                 ),
               );
-              
             },
           )
         ],

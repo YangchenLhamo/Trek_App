@@ -76,21 +76,22 @@ class _FavouritePageState extends State<FavouritePage> {
                         [];
 
                 
-                 return likedPage.isEmpty // Check if likedPage is empty
-                ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                //  return likedPage.isEmpty // Check if likedPage is empty
+                // ? Center(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
                    
-                    children: [
-                      Icon(
-                        Icons.favorite_border_outlined,
-                        size: getSize(150),
-                        color:CustomColors.primaryColor.withOpacity(0.6)
-                      ),
-                      Text("Add Your Favourites!!", style: Styles.textBlack18GB,)
-                    ],
-                  ),
-                ): SizedBox(
+                //     children: [
+                //       Icon(
+                //         Icons.favorite_border_outlined,
+                //         size: getSize(150),
+                //         color:CustomColors.primaryColor.withOpacity(0.6)
+                //       ),
+                //       Text("Add Your Favourites!!", style: Styles.textBlack18GB,)
+                //     ],
+                //   ),
+                // )
+                return SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
                       // shrinkWrap: true,

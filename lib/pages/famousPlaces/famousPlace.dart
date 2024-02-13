@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trekking_guide/components/dateformatter.dart';
 import 'package:trekking_guide/profileImage/save_image.dart';
+import 'package:trekking_guide/services/comments_log.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
@@ -40,22 +41,7 @@ class _DestinationPageState extends State<DestinationPage> {
   String userid = FirebaseAuth.instance.currentUser!.uid.toString();
 
   bool _isFavourite = false;
-  // _toggleFavourite(String favorite) {
-  //   setState(() {
-  //     _isFavourite = !_isFavourite;
-  //     if (_isFavourite) {
-  //       User? user = FirebaseAuth.instance.currentUser;
-  //       FirebaseFirestore.instance.collection("Users").doc(user!.uid).update({
-  //         "favourites": FieldValue.arrayUnion([favorite]),
-  //       });
-  //     } else {
-  //       User? user = FirebaseAuth.instance.currentUser;
-  //       FirebaseFirestore.instance.collection("Users").doc(user!.uid).update({
-  //         "favourites": FieldValue.arrayRemove([favorite]),
-  //       });
-  //     }
-  //   });
-  // }
+
   TextEditingController _commentTextController = TextEditingController();
   List<String> commentIds = [];
   @override
@@ -229,14 +215,9 @@ class _DestinationPageState extends State<DestinationPage> {
                             SizedBox(
                               height: getVerticalSize(20),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.title,
-                                  style: Styles.textBlack32B,
-                                ),
-                              ],
+                            Text(
+                              widget.title,
+                              style: Styles.textBlack32B,
                             ),
                             SizedBox(
                               height: getVerticalSize(25),
@@ -328,8 +309,6 @@ class _DestinationPageState extends State<DestinationPage> {
                             SizedBox(
                               height: getVerticalSize(20),
                             ),
-                            // Image(image: NetworkImage('https://firebasestorage.googleapis.com/v0/b/trekguide-73723.appspot.com/o/Trekking%20Places%2FMardi%2FMardi-Himal-.jpg?alt=media&token=590a4ead-40f7-413d-a426-6c6d387d2dfc'))
-
                             CarouselSlider.builder(
                                 carouselController: controller,
                                 itemCount: widget.images.length,
@@ -359,7 +338,6 @@ class _DestinationPageState extends State<DestinationPage> {
                                     // enlargeCenterPage: true,
                                     onPageChanged: (index, reason) =>
                                         setState(() => index = index))),
-
                             SizedBox(
                               height: getVerticalSize(10),
                             ),
@@ -369,24 +347,6 @@ class _DestinationPageState extends State<DestinationPage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             ExpenseCalculatorScreen()));
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            CustomColors.primaryColor,
-                                        padding: EdgeInsets.zero,
-                                        fixedSize: Size(getHorizontalSize(500),
-                                            getVerticalSize(40))),
-                                    child: Text(
-                                      'Book Now',
-                                      style: Styles.textWhite15,
-                                    ),
-                                  ),
                                   SizedBox(
                                     height: getVerticalSize(20),
                                   ),
@@ -397,35 +357,25 @@ class _DestinationPageState extends State<DestinationPage> {
                                   SizedBox(
                                     height: getVerticalSize(20),
                                   ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      showCommentDialog(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        fixedSize: Size(getHorizontalSize(160),
-                                            getVerticalSize(50))),
-                                    child: Row(
-
-                                      children: [
-                                        Text(
-                                          "Comments",
-                                          style: Styles.textBlack20,
-                                        ),
-                                        Icon(
-                                          Icons.mode_comment,
-                                          size: getSize(20),
-                                          color: CustomColors.primaryColor,
-                                        )
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Comment",
+                                        style: Styles.textBlack20,
+                                      ),
+                                      Icon(
+                                        Icons.mode_comment,
+                                        size: getSize(20),
+                                        color: CustomColors.primaryColor,
+                                      )
+                                    ],
                                   ),
                                   SizedBox(
                                     height: getVerticalSize(10),
                                   ),
                                   StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
-                                        .collection("FamousPlaces")
+                                        .collection("TrekkingPlaces")
                                         .doc(widget.title)
                                         .collection("Comments")
                                         .orderBy("CommentTime",
@@ -441,7 +391,6 @@ class _DestinationPageState extends State<DestinationPage> {
                                       if (snapshot.data!.docs.isNotEmpty) {
                                         return Container(
                                           height: getVerticalSize(200),
-                                          // padding: EdgeInsets.only(bottom: getVerticalSize(10)),
                                           width: getHorizontalSize(650),
                                           decoration: ShapeDecoration(
                                             shape: RoundedRectangleBorder(
@@ -514,7 +463,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                                           MainAxisAlignment
                                                               .spaceEvenly,
                                                       children: [
-                                                        
+                                                     
                                                         Expanded(
                                                           child: Text(
                                                             commentData[
@@ -533,6 +482,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                                             onTap: () {
                                                               // Call function to delete comment
                                                               deleteComment(
+                                                                  widget.title,
                                                                   commentId);
                                                             },
                                                             child: SizedBox(
@@ -593,7 +543,32 @@ class _DestinationPageState extends State<DestinationPage> {
                                       }
                                     },
                                   ),
-                                //  SizedBox(height: getVerticalSize(20),)
+                                  SizedBox(
+                                    height: getVerticalSize(20),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showCommentDialog(context,
+                                          _commentTextController, widget.title);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        fixedSize: Size(getHorizontalSize(160),
+                                            getVerticalSize(50))),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Add yours...",
+                                          style: Styles.textBlack18,
+                                        ),
+                                        Icon(
+                                          Icons.add,
+                                          size: getSize(20),
+                                          color: CustomColors.primaryColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             )
@@ -607,75 +582,5 @@ class _DestinationPageState extends State<DestinationPage> {
         ],
       ),
     );
-  }
-
-  // to add comment
-  void addComment(String commentText) {
-    // write the comment to firestore under the comments collection
-    // String? name;
-    FirebaseFirestore.instance
-        .collection("FamousPlaces")
-        .doc(widget.title)
-        .collection("Comments")
-        .add({
-      "CommentText": commentText,
-      "CommentedBy": FirebaseAuth.instance.currentUser!.email,
-      "CommentTime": Timestamp.now()
-    });
-  }
-
-  // to delete comment
-  void deleteComment(String commentId) {
-    FirebaseFirestore.instance
-        .collection("FamousPlaces")
-        .doc(widget.title)
-        .collection("Comments")
-        .doc(commentId)
-        .delete();
-
-    // Remove the comment from the UI
-    setState(() {
-      int index = commentIds.indexOf(commentId);
-      if (index != -1) {
-        commentIds.removeAt(index);
-      }
-    });
-  }
-
-  void showCommentDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text("Add Comment"),
-              content: TextField(
-                maxLines: null,
-                controller: _commentTextController,
-                decoration: InputDecoration(hintText: "Write a comment.."),
-              ),
-              actions: [
-                // post button
-                TextButton(
-                    onPressed: () {
-                      // add comment
-                      addComment(
-                        _commentTextController.text,
-                      );
-                      Navigator.pop(context);
-
-                      // clear controller
-                      _commentTextController.clear();
-                    },
-                    child: Text("Post")),
-
-                // cancel button
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // clear controller
-                      _commentTextController.clear();
-                    },
-                    child: Text("Cancel"))
-              ],
-            ));
   }
 }

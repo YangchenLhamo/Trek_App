@@ -10,6 +10,7 @@ import 'package:trekking_guide/components/dateformatter.dart';
 
 import 'package:trekking_guide/pages/trekkingPlaces/expense_calc.dart';
 import 'package:trekking_guide/profileImage/save_image.dart';
+import 'package:trekking_guide/services/comments_log.dart';
 
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
@@ -25,8 +26,7 @@ class BasecampMountainPage extends StatefulWidget {
       required this.images,
       required this.price,
       this.itenary,
-      
-       this.likes});
+      this.likes});
   String title;
   String description;
   List<dynamic> images;
@@ -403,28 +403,18 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                               height: getVerticalSize(20),
                             ),
 
-                            ElevatedButton(
-                              onPressed: () {
-                                showCommentDialog(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  fixedSize: Size(getHorizontalSize(160),
-                                      getVerticalSize(50))),
-                              child: Row(
-                                
-                                children: [
-                                  Text(
-                                    "Comments",
-                                    style: Styles.textBlack20,
-                                  ),
-                                  Icon(
-                                    Icons.mode_comment,
-                                    size: getSize(20),
-                                    color: CustomColors.primaryColor,
-                                  )
-                                ],
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Comments",
+                                  style: Styles.textBlack20,
+                                ),
+                                Icon(
+                                  Icons.mode_comment,
+                                  size: getSize(20),
+                                  color: CustomColors.primaryColor,
+                                )
+                              ],
                             ),
                             SizedBox(
                               height: getVerticalSize(10),
@@ -535,6 +525,7 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                                       onTap: () {
                                                         // Call function to delete comment
                                                         deleteComment(
+                                                            widget.title,
                                                             commentId);
                                                       },
                                                       child: SizedBox(
@@ -587,8 +578,31 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                               },
                             ),
                             SizedBox(
-                              height: getVerticalSize(30),
-                            )
+                              height: getVerticalSize(20),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                showCommentDialog(context,
+                                    _commentTextController, widget.title);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  fixedSize: Size(getHorizontalSize(160),
+                                      getVerticalSize(50))),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Add yours...",
+                                    style: Styles.textBlack18,
+                                  ),
+                                  Icon(
+                                    Icons.add,
+                                    size: getSize(20),
+                                    color: CustomColors.primaryColor,
+                                  )
+                                ],
+                              ),
+                            ),
                           ]),
                     ),
                   ),
@@ -646,75 +660,5 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
         );
       },
     );
-  }
-
-// to delete comment
-  void deleteComment(String commentId) {
-    FirebaseFirestore.instance
-        .collection("TrekkingPlaces")
-        .doc(widget.title)
-        .collection("Comments")
-        .doc(commentId)
-        .delete();
-
-    // Remove the comment from the UI
-    setState(() {
-      int index = commentIds.indexOf(commentId);
-      if (index != -1) {
-        commentIds.removeAt(index);
-      }
-    });
-  }
-
-// to add comment
-  void addComment(String commentText) {
-    // write the comment to firestore under the comments collection
-    // String? name;
-    FirebaseFirestore.instance
-        .collection("TrekkingPlaces")
-        .doc(widget.title)
-        .collection("Comments")
-        .add({
-      "CommentText": commentText,
-      "CommentedBy": FirebaseAuth.instance.currentUser!.email,
-      "CommentTime": Timestamp.now()
-    });
-  }
-
-  void showCommentDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text("Add Comment"),
-              content: TextField(
-                maxLines: null,
-                controller: _commentTextController,
-                decoration: InputDecoration(hintText: "Write a comment.."),
-              ),
-              actions: [
-                // post button
-                TextButton(
-                    onPressed: () {
-                      // add comment
-                      addComment(
-                        _commentTextController.text,
-                      );
-                      Navigator.pop(context);
-
-                      // clear controller
-                      _commentTextController.clear();
-                    },
-                    child: Text("Post")),
-
-                // cancel button
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // clear controller
-                      _commentTextController.clear();
-                    },
-                    child: Text("Cancel"))
-              ],
-            ));
   }
 }

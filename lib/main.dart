@@ -3,7 +3,7 @@ import 'package:trekking_guide/mainScreens/splashscreen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
-// import 'package:trekking_guide/pages/famousPlaces/see_all_page.dart';
+
 
 import 'firebase_options.dart';
 
