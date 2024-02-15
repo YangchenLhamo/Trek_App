@@ -5,7 +5,8 @@ import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
 
 class ExpenseCalculatorScreen extends StatefulWidget {
-  const ExpenseCalculatorScreen({super.key});
+  ExpenseCalculatorScreen({super.key, required this.title});
+  String title;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -14,7 +15,8 @@ class ExpenseCalculatorScreen extends StatefulWidget {
 }
 
 class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
-  String _selectedTrek = 'Basic'; // Default trek type
+  String _selectedTrek = 'Basic';
+  // Default trek type
   String _currency = 'Nep';
   int _numberOfParticipants = 1;
   int _numberOfDay = 1;
@@ -72,6 +74,7 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
     });
   }
 
+  String name = "name";
   // Function to get the currency symbol based on the selected currency
   String _getCurrencySymbol(String currency) {
     switch (currency) {
@@ -119,12 +122,16 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
           areas.add(doc.id);
         });
         setState(() {
+          name = "title";
           // Update the trek areas list
           trekArea = areas.toSet();
-          // Set the initial value of _area if it's not already set
+
+          // // Set the initial value of _area if it's not already set
           if (!trekArea.contains(_area)) {
             _area = trekArea.first;
           }
+
+          _area = widget.title;
         });
       }
     });
@@ -165,7 +172,7 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
                   ),
                   DropdownButton<String>(
                     value: _area,
-                    onChanged: (String? newValue) {
+                    onChanged: (newValue) {
                       setState(() {
                         _area = newValue!;
                       });

@@ -106,9 +106,6 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
       });
     }
 
-    log(widget.likes.toString());
-    log(user?.email.toString() ?? 'NA');
-
     final lines = isSeeMore ? null : 3;
     return Scaffold(
       body: Stack(
@@ -155,8 +152,6 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                         GestureDetector(
                           onTap: () {
                             _toggleFavourite(widget.title);
-
-                            // _toggleliked(widget.title);
                           },
                           child: Material(
                             elevation: 5,
@@ -346,7 +341,7 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ExpenseCalculatorScreen()));
+                                                ExpenseCalculatorScreen(title: widget.title,)));
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
@@ -502,12 +497,6 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                                     MainAxisAlignment
                                                         .spaceEvenly,
                                                 children: [
-                                                  // Text(
-                                                  //   commentData['CommentText'],
-                                                  //   style: Styles.textBlack20B,
-                                                  //   // maxLines: 3,
-
-                                                  // ),
                                                   Expanded(
                                                     child: Text(
                                                       commentData[
@@ -519,7 +508,6 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                                           .ellipsis, // Show ellipsis for overflow
                                                     ),
                                                   ),
-
                                                   if (shouldShowDeleteIcon)
                                                     GestureDetector(
                                                       onTap: () {
@@ -536,7 +524,19 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                                           size: getSize(20),
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        showCommentDialog(
+                                                            context,
+                                                            _commentTextController,
+                                                            widget.title);
+                                                      },
+                                                      child: Icon(Icons.reply)),
+                                                  SizedBox(
+                                                    width:
+                                                        getHorizontalSize(20),
+                                                  )
                                                 ],
                                               ),
                                               SizedBox(
