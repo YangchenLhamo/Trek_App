@@ -37,8 +37,6 @@ import 'package:trekking_guide/utils/text_styles.dart';
 //     // });
 //   }
 
- 
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -279,7 +277,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
             child: TextField(
               onChanged: (value) {
                 setState(() {
-                  value = search;
+                  search = value;
                 });
               },
               decoration: InputDecoration(
@@ -301,9 +299,10 @@ class _SeeAllPageState extends State<SeeAllPage> {
                 stream: FirebaseFirestore.instance.collection('TrekkingPlaces').snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   List<QueryDocumentSnapshot> snapshot1 = snapshot.data?.docs.where((doc) {
-                    final trekName = doc['title']?.toString().toLowerCase() ?? '';
-                    return trekName.contains(search.toLowerCase());
-                  }).toList()??[];
+                        final trekName = doc.id.toString().toLowerCase();
+                        return trekName.contains(search.toLowerCase());
+                      }).toList() ??
+                      [];
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot1.length,
@@ -385,14 +384,14 @@ class _SeeAllPageState extends State<SeeAllPage> {
                                         ElevatedButton.styleFrom(backgroundColor: CustomColors.primaryColor // Set the background color of the button
                                             ),
                                     onPressed: () {
-                                      AllData().addAllData(placedesc[index].id , placedesc[index]["Description"] ?? "NA",
+                                      AllData().addAllData(placedesc[index].id, placedesc[index]["Description"] ?? "NA",
                                           placedesc[index]["Images"] ?? [], placedesc[index]["price"] ?? '', placedesc[index]["itenary"] ?? '');
                                       Navigator.of(context).push(MaterialPageRoute(
                                           builder: (context) => BasecampMountainPage(
-                                                title: placedesc[index].id ,
-                                                description: placedesc[index]["Description"] ,
+                                                title: placedesc[index].id,
+                                                description: placedesc[index]["Description"],
                                                 images: placedesc[index]["Images"],
-                                                itenary: placedesc[index]["itenary"] ,
+                                                itenary: placedesc[index]["itenary"],
                                                 likes: placedesc[index]["likes"],
                                                 price: placedesc[index]["price"],
                                               )));
