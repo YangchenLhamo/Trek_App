@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:trekking_guide/pages/about_us.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
@@ -354,7 +355,7 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
                 },
               ),
               SizedBox(
-                height: getVerticalSize(20),
+                height: getVerticalSize(10),
               ),
               // total claculation
               Text(
@@ -388,6 +389,39 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
               Text(
                   'Total Expenses: ${_getCurrencySymbol(_currency)} ${_currency == 'USD' ? (_totalExpenses / 133.43).toStringAsFixed(3) : _currency == 'Yuan' ? (_totalExpenses / 18.65).toStringAsFixed(3) : (_totalExpenses * currencies['Nep']!).toStringAsFixed(3)}',
                   style: Styles.textBlack18),
+              SizedBox(
+                height: getVerticalSize(30),
+              ),
+
+              Container(
+                width: getHorizontalSize(300),
+                height: getVerticalSize(50),
+                decoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                        width: getSize(5), color: CustomColors.primaryColor),
+                    borderRadius: BorderRadius.circular(getSize(15)),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "For More Detail....",
+                      style: Styles.textBlack18B,
+                    ),
+                    MaterialButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AboutUsPage()));
+                        },
+                        child: Text("Contact Us",   style: Styles.textBlack18B)),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: getVerticalSize(30),
+              )
             ],
           ),
         ),

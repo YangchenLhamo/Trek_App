@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:trekking_guide/components/drawerpage.dart';
 import 'package:trekking_guide/authFiles/all_data.dart';
+import 'package:trekking_guide/pages/ForAdminSide/add_destination.dart';
 
 import 'package:trekking_guide/pages/famousPlaces/famousPlace.dart';
 
@@ -226,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                         MaterialButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SeeAllPage()));
+                                  builder: (context) => SeeAllPage(title: '',)));
                             },
                             color: CustomColors.primaryColor,
                             padding: EdgeInsets.all(5),
@@ -240,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     SizedBox(
-                      height: getVerticalSize(20),
+                      height: getVerticalSize(15),
                     ),
                     // show only when the user is admin
 
@@ -256,14 +257,14 @@ class _HomePageState extends State<HomePage> {
                             backgroundColor: CustomColors.primaryColor,
                             padding: EdgeInsets.zero,
                             fixedSize: Size(
-                                getHorizontalSize(140), getVerticalSize(50)),
+                                getHorizontalSize(250), getVerticalSize(40)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Add More',
-                                style: Styles.textWhite24,
+                                'Add More Trekking Places',
+                                style: Styles.textWhite20,
                               ),
                               Icon(
                                 Icons.arrow_forward,
@@ -406,6 +407,34 @@ class _HomePageState extends State<HomePage> {
                                 }),
                       ),
                     ),
+                    if (FirebaseAuth.instance.currentUser?.email ==
+                        'admin@gmail.com') // Check if the current user is admin
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddDestinationPlaces(),
+                            ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CustomColors.primaryColor,
+                            padding: EdgeInsets.zero,
+                            fixedSize: Size(
+                                getHorizontalSize(200), getVerticalSize(40)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Add More Destination',
+                                style: Styles.textWhite18,
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                                size: getSize(20),
+                              ),
+                            ],
+                          )),
                     SizedBox(
                       height: getVerticalSize(15),
                     ),

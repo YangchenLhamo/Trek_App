@@ -9,14 +9,14 @@ import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
 
-class AddTrekkingPlaces extends StatefulWidget {
-  const AddTrekkingPlaces({super.key});
+class AddDestinationPlaces extends StatefulWidget {
+  const AddDestinationPlaces({super.key});
 
   @override
-  State<AddTrekkingPlaces> createState() => _AddTrekkingPlacesState();
+  State<AddDestinationPlaces> createState() => _AddDestinationPlacesState();
 }
 
-class _AddTrekkingPlacesState extends State<AddTrekkingPlaces> {
+class _AddDestinationPlacesState extends State<AddDestinationPlaces> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
@@ -91,7 +91,7 @@ class _AddTrekkingPlacesState extends State<AddTrekkingPlaces> {
             },
           ),
         title: Text(
-          'Add Trekking Places',
+          'Add Destination Places',
           style: Styles.textWhite28B,
         ),
         centerTitle: true,
@@ -304,7 +304,7 @@ class _AddTrekkingPlacesState extends State<AddTrekkingPlaces> {
                           // Save data to Firestore
                           try {
                             await FirebaseFirestore.instance
-                                .collection('TrekkingPlaces')
+                                .collection('FamousPlaces')
                                 .doc(nameController
                                     .text) // Use name as document name
                                 .set({

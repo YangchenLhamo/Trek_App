@@ -174,6 +174,14 @@ class Styles {
     // height: 0.06,
     letterSpacing: -0.41,
   );
+   static final textBlack16B = TextStyle(
+    color: Colors.black,
+    fontSize: getFontSize(16),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+    // height: 0.06,
+    letterSpacing: -0.41,
+  );
   static final commentText16 = TextStyle(
     color: Colors.grey[400],
     fontSize: getFontSize(16),

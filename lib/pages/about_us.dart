@@ -39,15 +39,15 @@ Join with us for lifetime adventure Trips in the majestic country of Nepal, Tibe
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new_sharp,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-              // _scaffoldKey.currentState?.openDrawer();
-            },
+          icon: const Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: Colors.white,
           ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            // _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
         title: Text(
           "About us",
           style: Styles.textWhite34B,
@@ -113,7 +113,6 @@ Join with us for lifetime adventure Trips in the majestic country of Nepal, Tibe
             Container(
               width: getHorizontalSize(350),
               height: getVerticalSize(480),
-              
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
@@ -186,6 +185,43 @@ Join with us for lifetime adventure Trips in the majestic country of Nepal, Tibe
                 ],
               ),
             ),
+            SizedBox(
+              height: getVerticalSize(40),
+            ),
+            Text("Contact Us", style: Styles.textBlack26B,),
+            SizedBox(height: getVerticalSize(20),),
+            Container(
+              width: getHorizontalSize(300),
+              height: getVerticalSize(220),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: getSize(2), color: CustomColors.primaryColor),
+                  borderRadius: BorderRadius.circular(getSize(15)),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  
+                  children: [
+                    Text('''Call  : (+977)-9765961309 / 986-1208-115''', style: Styles.textBlack16B,),
+                    SizedBox(height: getVerticalSize(15),),
+                    Text('''mail : hwwtreks@gmail.com
+          info@hwwtreks.com ''',style: Styles.textBlack16B,),
+           SizedBox(height: getVerticalSize(15),),
+                    Text('''Whatsap : +977-9765961309''',style: Styles.textBlack16B,),
+                     SizedBox(height: getVerticalSize(15),),
+                    Text('''Location : Boudha-06, Kathmandu, Nepal''',style: Styles.textBlack16B,),
+                     SizedBox(height: getVerticalSize(15),),
+                    Text('''P.O.Box Number : 4942, Kathmandu''',style: Styles.textBlack16B,)
+                
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

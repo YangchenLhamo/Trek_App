@@ -182,38 +182,7 @@ class _FavouritePageState extends State<FavouritePage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      // ElevatedButton(
-                                      //     style: ElevatedButton.styleFrom(
-                                      //         backgroundColor: CustomColors
-                                      //             .primaryColor // Set the background color of the button
-                                      //         ),
-                                      //     onPressed: () {
-                                      //       Navigator.push(
-                                      //         context,
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) => BasecampMountainPage(
-                                      //                 title:
-                                      //                     likedPage[index].id,
-                                      //                 description: likedPage[
-                                      //                             index]
-                                      //                         ["Description"] ??
-                                      //                     "NA",
-                                      //                 images: likedPage[index]
-                                      //                         ["Images"] ??
-                                      //                     [],
-                                      //                 price: likedPage[index]
-                                      //                         ["price"] ??
-                                      //                     "NA",
-                                      //                 likes: likedPage[index]
-                                      //                         ["likes"] ??
-                                      //                     [])),
-                                      //       );
-                                      //     },
-                                      //     // },
-                                      //     child: Text(
-                                      //       "View More...",
-                                      //       style: Styles.textWhite16,
-                                      //     )),
+                                      
                                       SizedBox(
                                         width: getHorizontalSize(20),
                                       ),

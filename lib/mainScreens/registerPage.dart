@@ -161,14 +161,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Uint8List? _image;
-  // pickImage(ImageSource source) async {
-  //   final ImagePicker _imagePicker = ImagePicker();
-  //   file = await _imagePicker.pickImage(source: source);
-  //   if (file != null) {
-  //     return await file!.readAsBytes();
-  //   }
-  //   print("No image Selected");
-  // }
+  pickImage(ImageSource source) async {
+    final ImagePicker _imagePicker = ImagePicker();
+    file = await _imagePicker.pickImage(source: source);
+    if (file != null) {
+      return await file!.readAsBytes();
+    }
+    print("No image Selected");
+  }
 
   // void selectImage() async {
   //   Uint8List img = await pickImage(ImageSource.gallery);
@@ -176,36 +176,51 @@ class _RegisterPageState extends State<RegisterPage> {
   //     _image = img;
   //   });
   // }
+  // void selectImage() async {
+  //   final ImagePicker _imagePicker = ImagePicker();
+  //   XFile? imageFile =
+  //       await _imagePicker.pickImage(source: ImageSource.gallery);
+  //   if (imageFile != null) {
+  //     setState(() {
+  //       file = imageFile;
+  //       _image = File(imageFile.path).readAsBytesSync();
+  //     });
+  //   } else {
+  //     print("No image selected");
+  //   }
+  // }
+  bool isImagePickerActive = false;
   void selectImage() async {
-    final ImagePicker _imagePicker = ImagePicker();
-    XFile? imageFile =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (imageFile != null) {
-      setState(() {
-        file = imageFile;
-        _image = File(imageFile.path).readAsBytesSync();
-      });
-    } else {
-      print("No image selected");
-    }
-  }
+    if (!isImagePickerActive) {
+      isImagePickerActive = true;
 
-  Future<String> saveProfileImage() async {
-    if (_image != null) {
-      String? imageUrl = await StoreData().saveData(file: _image!);
-      return imageUrl ?? '';
-    } else {
-      print("No image to save");
-      return '';
+      Uint8List img = await pickImage(ImageSource.gallery);
+
+      setState(() {
+        _image = img;
+      });
+
+      // After image picking is complete, set isImagePickerActive to false
+      isImagePickerActive = false;
     }
   }
 
   // Future<String> saveProfileImage() async {
-  //   // String resp = await StoreData().saveData(file: _image!);
-  //   // return resp;
-  //   String? resp = await StoreData().saveData(file: _image!);
-  //   return resp ?? '';
+  //   if (_image != null) {
+  //     String? imageUrl = await StoreData().saveData(file: _image!);
+  //     return imageUrl ?? '';
+  //   } else {
+  //     print("No image to save");
+  //     return '';
+  //   }
   // }
+
+  Future<String> saveProfileImage() async {
+    // String resp = await StoreData().saveData(file: _image!);
+    // return resp;
+    String? resp = await StoreData().saveData(file: _image!);
+    return resp ?? '';
+  }
   // Future<String> spdateProfileImage() async {
   //   String resp = await UpdateData().saveData(file: _image!);
   //   return resp;
@@ -345,14 +360,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             }
                             return null;
                           },
-
-                          // keyboardType: TextInputType.emailAddress,
-                          // validator: (value) {
-                          //   if (!_isEmailValid) {
-                          //     return 'Enter a valid email';
-                          //   }
-                          //   return null;
-                          // },
                         ),
                       ),
                       SizedBox(height: getVerticalSize(10)),
@@ -545,8 +552,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            saveProfileImage()
-                                .then((value) => {registerUser(value)});
+                            if (_image != null) {
+                              registerUserimage('');
+                            } else {
+                              registerUser('');
+                            }
+                            // saveProfileImage()
+                            //     .then((value) => {registerUser(value)});
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -556,10 +568,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             );
                           }
                         },
-                        // onPressed: () {
-                        //   Navigator.of(context).push(
-                        //       MaterialPageRoute(builder: (context) => BottomNav()));
-                        // },
+                      
                         style: ElevatedButton.styleFrom(
                             backgroundColor: CustomColors.primaryColor,
                             padding: EdgeInsets.symmetric(
@@ -604,10 +613,37 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  // Future registerUser(String url) async {
+  //   FirebaseAuth auth = FirebaseAuth.instance;
+
+  //   auth
+  //       .createUserWithEmailAndPassword(
+  //           email: emailController.text, password: passwordController.text)
+  //       .then((signedInUser) => FirebaseFirestore.instance
+  //               .collection("Users")
+  //               .doc(signedInUser.user!.uid)
+  //               .set({
+  //             "name": nameController.text,
+  //             "email": emailController.text,
+  //             "Phone": phoneNumberController.text,
+  //             "favourites": [],
+  //             'Date of Birth': dateController.text,
+  //             'imageLink': url
+  //           }))
+  //       .then((value) {
+  //     print('created a new account');
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => BottomNav()),
+  //     );
+  //   }).onError((error, stackTrace) {
+  //     print('Error ${error.toString()}');
+  //     Fluttertoast.showToast(msg: error.toString());
+  //   });
+  // }
+
   Future registerUser(String url) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-
-
     auth
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
@@ -624,6 +660,48 @@ class _RegisterPageState extends State<RegisterPage> {
             }))
         .then((value) {
       print('created a new account');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Account Created Successfully'),
+        ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNav()),
+      );
+    }).onError((error, stackTrace) {
+      print('Error ${error.toString()}');
+      Fluttertoast.showToast(msg: error.toString());
+    });
+  }
+
+  Future registerUserimage(String url) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth
+        .createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
+        .then((signedInUser) {
+      saveProfileImage().then((value) => {
+            FirebaseFirestore.instance
+                .collection("Users")
+                .doc(signedInUser.user!.uid)
+                .set({
+              "name": nameController.text,
+              "email": emailController.text,
+              "Phone": phoneNumberController.text,
+              "favourites": [],
+              'Date of Birth': dateController.text,
+              'imageLink': url
+            })
+          });
+    }).then((value) {
+      print('created a new account');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Account Created Successfully'),
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNav()),

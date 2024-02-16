@@ -2,13 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trekking_guide/components/dateformatter.dart';
+import 'package:trekking_guide/components/comment_files.dart';
+import 'package:trekking_guide/components/comments_log.dart';
+
 import 'package:trekking_guide/profileImage/save_image.dart';
-import 'package:trekking_guide/services/comments_log.dart';
+
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
-import 'dart:developer';
 
 // ignore: must_be_immutable
 class DestinationPage extends StatefulWidget {
@@ -373,176 +374,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                   SizedBox(
                                     height: getVerticalSize(10),
                                   ),
-                                  StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("TrekkingPlaces")
-                                        .doc(widget.title)
-                                        .collection("Comments")
-                                        .orderBy("CommentTime",
-                                            descending: true)
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-
-                                      if (snapshot.data!.docs.isNotEmpty) {
-                                        return Container(
-                                          height: getVerticalSize(200),
-                                          width: getHorizontalSize(650),
-                                          decoration: ShapeDecoration(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  width: getSize(2),
-                                                  color: CustomColors
-                                                      .primaryColor),
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      getSize(10)),
-                                            ),
-                                          ),
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            // physics: NeverScrollableScrollPhysics(),
-                                            itemCount:
-                                                snapshot.data!.docs.length,
-                                            itemBuilder: (context, index) {
-                                              final commentData = snapshot
-                                                      .data!.docs[index]
-                                                      .data()
-                                                  as Map<String, dynamic>;
-                                              final commentId =
-                                                  snapshot.data!.docs[index].id;
-
-                                              commentIds.add(
-                                                  commentId); // Add comment ID to the list
-
-                                              // Check if the comment was made by the current user
-                                              final currentUserEmail =
-                                                  FirebaseAuth.instance
-                                                      .currentUser!.email;
-                                              final commentOwnerEmail =
-                                                  commentData['CommentedBy'];
-                                              final isCurrentUserComment =
-                                                  currentUserEmail ==
-                                                      commentOwnerEmail;
-
-                                              // Only show the delete icon if the comment was made by the current user
-                                              final shouldShowDeleteIcon =
-                                                  isCurrentUserComment;
-
-                                              return Container(
-                                                // height: getVerticalSize(80),
-                                                margin: EdgeInsets.only(
-                                                    left: getHorizontalSize(5),
-                                                    right: getHorizontalSize(5),
-                                                    top: getVerticalSize(15)),
-                                                padding: EdgeInsets.only(
-                                                  top: getVerticalSize(8),
-                                                  left: getHorizontalSize(8),
-                                                  bottom: getVerticalSize(15),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: CustomColors
-                                                      .primaryColor
-                                                      .withOpacity(0.7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                     
-                                                        Expanded(
-                                                          child: Text(
-                                                            commentData[
-                                                                'CommentText'],
-                                                            style: Styles
-                                                                .textBlack16,
-                                                            maxLines:
-                                                                3, // Limit to 3 lines
-                                                            overflow: TextOverflow
-                                                                .ellipsis, // Show ellipsis for overflow
-                                                          ),
-                                                        ),
-
-                                                        if (shouldShowDeleteIcon)
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              // Call function to delete comment
-                                                              deleteComment(
-                                                                  widget.title,
-                                                                  commentId);
-                                                            },
-                                                            child: SizedBox(
-                                                              width:
-                                                                  getVerticalSize(
-                                                                      40),
-                                                              child: Icon(
-                                                                Icons.delete,
-                                                                size:
-                                                                    getSize(20),
-                                                              ),
-                                                            ),
-                                                          )
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                        height: getVerticalSize(
-                                                            10)),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          commentData[
-                                                              'CommentedBy'],
-                                                          style: Styles
-                                                              .commentText16,
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                              getHorizontalSize(
-                                                                  15),
-                                                        ),
-                                                        Text(
-                                                          ".",
-                                                          style: Styles
-                                                              .commentText16,
-                                                        ),
-                                                        SizedBox(
-                                                          width:
-                                                              getHorizontalSize(
-                                                                  15),
-                                                        ),
-                                                        Text(
-                                                          formatDate(commentData[
-                                                              'CommentTime']),
-                                                          style: Styles
-                                                              .commentText16,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      } else {
-                                        return Container();
-                                      }
-                                    },
-                                  ),
+                                  CommentsWidget(title: widget.title),
                                   SizedBox(
                                     height: getVerticalSize(20),
                                   ),

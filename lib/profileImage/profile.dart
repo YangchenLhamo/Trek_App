@@ -105,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection("Users")
-        .doc(user!.uid) // replace "userId" with the actual document ID
+        .doc(user!.uid)
         .update({
       "name": nameController.text,
       "email": emailController.text,
@@ -450,7 +450,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                               );
 
-                              // Update appointment logic here
+                             
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Details Updated'),
