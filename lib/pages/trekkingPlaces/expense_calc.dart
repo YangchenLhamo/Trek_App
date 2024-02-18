@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trekking_guide/pages/about_us.dart';
+import 'package:trekking_guide/pages/trekkingPlaces/include_exclude.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
@@ -157,8 +158,8 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              getHorizontalSize(20), getVerticalSize(10), 0, 0),
+          padding: EdgeInsets.fromLTRB(getHorizontalSize(10),
+              getVerticalSize(10), getHorizontalSize(10), 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -392,8 +393,42 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
               SizedBox(
                 height: getVerticalSize(30),
               ),
-
+              SizedBox(
+                width: getHorizontalSize(220),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColors.primaryColor),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => IncludeExcludePage()));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Includes & Excludes',
+                        style: Styles.textWhite20,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: Colors.white,
+                        size: getSize(20),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: getVerticalSize(30),
+              ),
+              Divider(
+                color: CustomColors.primaryColor,
+                height: getVerticalSize(2),
+              ),
+              SizedBox(
+                height: getVerticalSize(10),
+              ),
               Container(
+                margin: EdgeInsets.fromLTRB(getHorizontalSize(30), 0, 0, 0),
                 width: getHorizontalSize(300),
                 height: getVerticalSize(50),
                 decoration: ShapeDecoration(
@@ -415,7 +450,7 @@ class _ExpenseCalculatorScreenState extends State<ExpenseCalculatorScreen> {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AboutUsPage()));
                         },
-                        child: Text("Contact Us",   style: Styles.textBlack18B)),
+                        child: Text("Contact Us", style: Styles.textBlack18B)),
                   ],
                 ),
               ),
