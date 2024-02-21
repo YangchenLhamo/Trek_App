@@ -361,7 +361,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Comment",
+                                        "Feedbacks",
                                         style: Styles.textBlack20,
                                       ),
                                       Icon(

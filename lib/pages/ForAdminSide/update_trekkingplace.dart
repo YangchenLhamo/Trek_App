@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
 
+// ignore: must_be_immutable
 class UpdateButton extends StatefulWidget {
   UpdateButton({
     Key? key,
@@ -28,6 +29,11 @@ class UpdateButton extends StatefulWidget {
 }
 
 class _UpdateButtonState extends State<UpdateButton> {
+
+   TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+
   void getUserData() async {
     var value = await FirebaseFirestore.instance
         .collection("TrekkingPlace")
@@ -43,9 +49,7 @@ class _UpdateButtonState extends State<UpdateButton> {
     }
   }
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
+ 
   void updateData(String title, String description, String price) async {
     await FirebaseFirestore.instance
         .collection("TrekkingPlaces")
