@@ -356,50 +356,59 @@ class _DestinationPageState extends State<DestinationPage> {
                                     height: getVerticalSize(2),
                                   ),
                                   SizedBox(
-                                    height: getVerticalSize(20),
+                                    height: getVerticalSize(10),
                                   ),
+                                  
                                   Row(
                                     children: [
-                                      Text(
-                                        "Feedbacks",
-                                        style: Styles.textBlack20,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Feedbacks",
+                                            style: Styles.textBlack20,
+                                          ),
+                                          Icon(
+                                            Icons.mode_comment,
+                                            size: getSize(20),
+                                            color: CustomColors.primaryColor,
+                                          )
+                                        ],
                                       ),
-                                      Icon(
-                                        Icons.mode_comment,
-                                        size: getSize(20),
+                                      SizedBox(
+                                        width: getHorizontalSize(100),
+                                      ),
+                                      MaterialButton(
+                                        onPressed: () {
+                                          showCommentDialog(
+                                              context,
+                                              _commentTextController,
+                                              widget.title);
+                                        },
                                         color: CustomColors.primaryColor,
-                                      )
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Add yours...",
+                                              style: Styles.textWhite15,
+                                            ),
+                                            Icon(
+                                              Icons.add,
+                                              size: getSize(10),
+                                              color: CustomColors.primaryColor,
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
                                     height: getVerticalSize(10),
                                   ),
+                                  
                                   CommentsWidget(title: widget.title),
                                   SizedBox(
                                     height: getVerticalSize(20),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      showCommentDialog(context,
-                                          _commentTextController, widget.title);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        fixedSize: Size(getHorizontalSize(160),
-                                            getVerticalSize(50))),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Add yours...",
-                                          style: Styles.textBlack18,
-                                        ),
-                                        Icon(
-                                          Icons.add,
-                                          size: getSize(20),
-                                          color: CustomColors.primaryColor,
-                                        )
-                                      ],
-                                    ),
                                   ),
                                 ],
                               ),

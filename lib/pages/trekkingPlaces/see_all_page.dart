@@ -128,7 +128,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
                                 ),
                                 Text(
                                   placedesc[index].id,
-                                  style: Styles.textBlack18B,
+                                  style: Styles.textBlack16B,
                                 ),
                                 SizedBox(
                                   height: getVerticalSize(20),

@@ -346,11 +346,11 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                       backgroundColor:
                                           CustomColors.primaryColor,
                                       padding: EdgeInsets.zero,
-                                      fixedSize: Size(getHorizontalSize(150),
-                                          getVerticalSize(40))),
+                                      fixedSize: Size(getHorizontalSize(110),
+                                          getVerticalSize(30))),
                                   child: Text(
                                     'Book Now',
-                                    style: Styles.textWhite20,
+                                    style: Styles.textWhite18,
                                   ),
                                 ),
                                 ElevatedButton(
@@ -371,18 +371,18 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                                       backgroundColor:
                                           CustomColors.primaryColor,
                                       padding: EdgeInsets.only(
-                                          left: getHorizontalSize(30)),
-                                      fixedSize: Size(getHorizontalSize(150),
-                                          getVerticalSize(40))),
+                                          left: getHorizontalSize(20)),
+                                      fixedSize: Size(getHorizontalSize(105),
+                                          getVerticalSize(30))),
                                   child: Row(
                                     children: [
                                       Text(
                                         'Itenary',
-                                        style: Styles.textWhite20,
+                                        style: Styles.textWhite18,
                                       ),
                                       Icon(
                                         Icons.arrow_forward,
-                                        size: getSize(25),
+                                        size: getSize(20),
                                         color: Colors.white,
                                       )
                                     ],
@@ -391,59 +391,67 @@ class _BasecampMountainPageState extends State<BasecampMountainPage> {
                               ],
                             ),
                             SizedBox(
-                              height: getVerticalSize(20),
+                              height: getVerticalSize(15),
                             ),
                             Divider(
                               color: CustomColors.primaryColor,
                               height: getVerticalSize(2),
                             ),
                             SizedBox(
-                              height: getVerticalSize(20),
+                              height: getVerticalSize(10),
                             ),
 
                             Row(
                               children: [
-                                Text(
-                                  "Feedbacks",
-                                  style: Styles.textBlack20,
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Feedbacks",
+                                      style: Styles.textBlack20,
+                                    ),
+                                    Icon(
+                                      Icons.mode_comment,
+                                      size: getSize(20),
+                                      color: CustomColors.primaryColor,
+                                    )
+                                  ],
                                 ),
-                                Icon(
-                                  Icons.mode_comment,
-                                  size: getSize(20),
+                                SizedBox(
+                                  width: getHorizontalSize(100),
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    showCommentDialog(context,
+                                        _commentTextController, widget.title);
+                                  },
                                   color: CustomColors.primaryColor,
-                                )
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Add yours...",
+                                        style: Styles.textWhite15,
+                                      ),
+                                      Icon(
+                                        Icons.add,
+                                        size: getSize(10),
+                                        color: CustomColors.primaryColor,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(
                               height: getVerticalSize(10),
                             ),
+
                             // for comment sections
                             CommentsWidget(title: widget.title),
                             SizedBox(
                               height: getVerticalSize(20),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                showCommentDialog(context,
-                                    _commentTextController, widget.title);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  fixedSize: Size(getHorizontalSize(160),
-                                      getVerticalSize(50))),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Add yours...",
-                                    style: Styles.textBlack18,
-                                  ),
-                                  Icon(
-                                    Icons.add,
-                                    size: getSize(20),
-                                    color: CustomColors.primaryColor,
-                                  )
-                                ],
-                              ),
                             ),
 
                             SizedBox(

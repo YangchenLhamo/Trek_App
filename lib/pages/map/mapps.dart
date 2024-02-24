@@ -2,8 +2,11 @@
 
 // import 'dart:async';
 // import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:location/location.dart';
 
@@ -15,14 +18,14 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  // Location _locationController = new Location();
+  Location _locationController = new Location();
 
-  // final Completer<GoogleMapController> _mapController =
-  //     Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _mapController =
+      Completer<GoogleMapController>();
 
-  // static const LatLng _boudhaPlex = LatLng(27.7213, 85.3575);
-  // static const LatLng _swyambhuPlex = LatLng(27.7192, 85.2955);
-  // LatLng? _currentP = null;
+  static const LatLng _boudhaPlex = LatLng(27.7213, 85.3575);
+  static const LatLng _swyambhuPlex = LatLng(27.7192, 85.2955);
+  LatLng? _currentP = null;
 
   // Map<PolylineId, Polyline> polylines = {};
 
@@ -53,6 +56,21 @@ class _MapPageState extends State<MapPage> {
             ),
             markers: {
               Marker(
+                markerId: MarkerId("_currentLocation"),
+                icon: BitmapDescriptor.defaultMarker,
+                position: _currentP ??
+                    LatLng(
+                        0, 0), // Provide a default LatLng if _currentP is null
+              ),
+              const Marker(
+                  markerId: MarkerId("_sourceLocation"),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: _boudhaPlex),
+              const Marker(
+                  markerId: MarkerId("_destinationLocation"),
+                  icon: BitmapDescriptor.defaultMarker,
+                  position: _swyambhuPlex),
+              Marker(
                 onTap: () {
                   showDialog(
                       context: context,
@@ -60,7 +78,8 @@ class _MapPageState extends State<MapPage> {
                         return AlertDialog(
                           content: StatefulBuilder(
                             builder: (BuildContext context, setState1) {
-                              void _onMapCreated(GoogleMapController controller) {
+                              void _onMapCreated(
+                                  GoogleMapController controller) {
                                 mapController = controller;
                               }
 
@@ -76,7 +95,7 @@ class _MapPageState extends State<MapPage> {
                                 width: 300,
                                 color: Colors.white,
                                 child: GoogleMap(
-                                  initialCameraPosition: CameraPosition(
+                                  initialCameraPosition: const CameraPosition(
                                     zoom: 12,
                                     target: LatLng(
                                       27.7172,
@@ -89,8 +108,10 @@ class _MapPageState extends State<MapPage> {
                                       ? {}
                                       : {
                                           Marker(
-                                            markerId: MarkerId('picked-location'),
-                                            position: _pickedLocation ?? LatLng(0.0, 0.0),
+                                            markerId:
+                                                MarkerId('picked-location'),
+                                            position: _pickedLocation ??
+                                                LatLng(0.0, 0.0),
                                           ),
                                         },
                                 ),
@@ -121,6 +142,7 @@ class _MapPageState extends State<MapPage> {
       //   child: Text("Loading........."),
       // ),
     );
+
     //   return Scaffold(
     //     body: _currentP == null
     //         ? const Center(
@@ -233,5 +255,50 @@ class _MapPageState extends State<MapPage> {
     //   setState(() {
     //     polylines[id] = polyline;
     //   });
+  }
+
+  // to point the camera positon to specific position of the user
+  Future<void> _cameraToPosition(LatLng pos) async {
+    final GoogleMapController controller = await _mapController.future;
+    CameraPosition _newCameraPosition = CameraPosition(target: pos, zoom: 13);
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(_newCameraPosition));
+  }
+
+  // to ask for user's location
+  Future<void> getLocationUpdates() async {
+    // flag to show that user has enter their location
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await _locationController.serviceEnabled();
+    if (_serviceEnabled) {
+      _serviceEnabled = await _locationController.serviceEnabled();
+    } else {
+      return;
+    }
+
+    // ask permission to use/access the serivce(user's location)
+    _permissionGranted = await _locationController.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      // this create a prompt telling user to allow permission access
+      _permissionGranted = await _locationController.requestPermission();
+      // if not then return or leave
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    // when we have the access to this
+    _locationController.onLocationChanged
+        .listen((LocationData currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null) {
+        // update entire map with reference to the user's location (_currentP)
+        setState(() {
+          _currentP =
+              LatLng(currentLocation.latitude!, currentLocation.longitude!);
+          _cameraToPosition(_currentP!);
+        });
+      }
+    });
   }
 }

@@ -160,109 +160,15 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Uint8List? _image;
-  pickImage(ImageSource source) async {
-    final ImagePicker _imagePicker = ImagePicker();
-    file = await _imagePicker.pickImage(source: source);
-    if (file != null) {
-      return await file!.readAsBytes();
-    }
-    print("No image Selected");
-  }
-
-  // void selectImage() async {
-  //   Uint8List img = await pickImage(ImageSource.gallery);
-  //   setState(() {
-  //     _image = img;
-  //   });
-  // }
-  // void selectImage() async {
-  //   final ImagePicker _imagePicker = ImagePicker();
-  //   XFile? imageFile =
-  //       await _imagePicker.pickImage(source: ImageSource.gallery);
-  //   if (imageFile != null) {
-  //     setState(() {
-  //       file = imageFile;
-  //       _image = File(imageFile.path).readAsBytesSync();
-  //     });
-  //   } else {
-  //     print("No image selected");
-  //   }
-  // }
-  bool isImagePickerActive = false;
-  void selectImage() async {
-    if (!isImagePickerActive) {
-      isImagePickerActive = true;
-
-      Uint8List img = await pickImage(ImageSource.gallery);
-
-      setState(() {
-        _image = img;
-      });
-
-      // After image picking is complete, set isImagePickerActive to false
-      isImagePickerActive = false;
-    }
-  }
-
-  // Future<String> saveProfileImage() async {
-  //   if (_image != null) {
-  //     String? imageUrl = await StoreData().saveData(file: _image!);
-  //     return imageUrl ?? '';
-  //   } else {
-  //     print("No image to save");
-  //     return '';
-  //   }
-  // }
-
-  Future<String> saveProfileImage() async {
-    // String resp = await StoreData().saveData(file: _image!);
-    // return resp;
-    String? resp = await StoreData().saveData(file: _image!);
-    return resp ?? '';
-  }
-  // Future<String> spdateProfileImage() async {
-  //   String resp = await UpdateData().saveData(file: _image!);
-  //   return resp;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      // ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
                 height: getVerticalSize(50),
-              ),
-              Stack(
-                children: [
-                  _image != null
-                      ? CircleAvatar(
-                          radius: getSize(80),
-                          backgroundImage: MemoryImage(_image!),
-                        )
-                      : CircleAvatar(
-                          radius: getSize(80),
-                          backgroundImage:
-                              const AssetImage('assets/annapurna_trek.jpg'),
-                        ),
-                  Positioned(
-                    bottom: getVerticalSize(-10),
-                    left: getHorizontalSize(80),
-                    child: IconButton(
-                        onPressed: selectImage,
-                        icon: Icon(
-                          Icons.add_a_photo,
-                          size: getSize(35),
-                          color: CustomColors.primaryColor,
-                        )),
-                  )
-                ],
               ),
               Form(
                 key: _formKey,
@@ -331,7 +237,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             getHorizontalSize(5)),
                         child: TextFormField(
                           controller: emailController,
-
                           decoration: InputDecoration(
                             label: const Text('Email'),
                             labelStyle: Styles.textBlack20,
@@ -552,13 +457,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            if (_image != null) {
-                              registerUserimage('');
-                            } else {
-                              registerUser('');
-                            }
                             // saveProfileImage()
                             //     .then((value) => {registerUser(value)});
+
+                            registerUser();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -568,7 +470,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             );
                           }
                         },
-                      
                         style: ElevatedButton.styleFrom(
                             backgroundColor: CustomColors.primaryColor,
                             padding: EdgeInsets.symmetric(
@@ -613,37 +514,9 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  // Future registerUser(String url) async {
-  //   FirebaseAuth auth = FirebaseAuth.instance;
-
-  //   auth
-  //       .createUserWithEmailAndPassword(
-  //           email: emailController.text, password: passwordController.text)
-  //       .then((signedInUser) => FirebaseFirestore.instance
-  //               .collection("Users")
-  //               .doc(signedInUser.user!.uid)
-  //               .set({
-  //             "name": nameController.text,
-  //             "email": emailController.text,
-  //             "Phone": phoneNumberController.text,
-  //             "favourites": [],
-  //             'Date of Birth': dateController.text,
-  //             'imageLink': url
-  //           }))
-  //       .then((value) {
-  //     print('created a new account');
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => BottomNav()),
-  //     );
-  //   }).onError((error, stackTrace) {
-  //     print('Error ${error.toString()}');
-  //     Fluttertoast.showToast(msg: error.toString());
-  //   });
-  // }
-
-  Future registerUser(String url) async {
+  Future registerUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
+
     auth
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
@@ -656,52 +529,10 @@ class _RegisterPageState extends State<RegisterPage> {
               "Phone": phoneNumberController.text,
               "favourites": [],
               'Date of Birth': dateController.text,
-              'imageLink': url
+              // 'imageLink': url
             }))
         .then((value) {
       print('created a new account');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Account Created Successfully'),
-        ),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BottomNav()),
-      );
-    }).onError((error, stackTrace) {
-      print('Error ${error.toString()}');
-      Fluttertoast.showToast(msg: error.toString());
-    });
-  }
-
-  Future registerUserimage(String url) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    auth
-        .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
-        .then((signedInUser) {
-      saveProfileImage().then((value) => {
-            FirebaseFirestore.instance
-                .collection("Users")
-                .doc(signedInUser.user!.uid)
-                .set({
-              "name": nameController.text,
-              "email": emailController.text,
-              "Phone": phoneNumberController.text,
-              "favourites": [],
-              'Date of Birth': dateController.text,
-              'imageLink': url
-            })
-          });
-    }).then((value) {
-      print('created a new account');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Account Created Successfully'),
-        ),
-      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNav()),
