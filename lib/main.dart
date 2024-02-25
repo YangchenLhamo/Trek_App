@@ -33,6 +33,108 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:trekking_guide/pages/map/apikey.dart';
+
+// class MapWithSearch extends StatefulWidget {
+//   @override
+//   _MapWithSearchState createState() => _MapWithSearchState();
+// }
+
+// class _MapWithSearchState extends State<MapWithSearch> {
+//   late GoogleMapController mapController;
+//   TextEditingController _searchController = TextEditingController();
+//   Set<Marker> _markers = {};
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Map with Search'),
+//       ),
+//       body: Column(
+//         children: <Widget>[
+//           TextField(
+//             controller: _searchController,
+//             decoration: InputDecoration(
+//               labelText: 'Search for a place',
+//               suffixIcon: IconButton(
+//                 icon: Icon(Icons.search),
+//                 onPressed: () {
+//                   searchPlace(_searchController.text);
+//                 },
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             child: GoogleMap(
+//               onMapCreated: (controller) {
+//                 setState(() {
+//                   mapController = controller;
+//                 });
+//               },
+//               initialCameraPosition: CameraPosition(
+//                 target: LatLng(37.7749, -122.4194),
+//                 zoom: 12.0,
+//               ),
+//               markers: _markers,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   void searchPlace(String query) async {
+//     final apiKey = Google_API_Key;
+//     final placesApiUrl =
+//         'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$query&key=$apiKey';
+
+//     final response = await http.get(Uri.parse(placesApiUrl));
+//     final responseData = json.decode(response.body);
+
+//     setState(() {
+//       _markers.clear();
+//       if (responseData['results'] != null) {
+//         for (var result in responseData['results']) {
+//           _markers.add(Marker(
+//             markerId: MarkerId(result['place_id']),
+//             position: LatLng(
+//               result['geometry']['location']['lat'],
+//               result['geometry']['location']['lng'],
+//             ),
+//             infoWindow: InfoWindow(
+//               title: result['name'],
+//               snippet: result['formatted_address'],
+//             ),
+//           ));
+//         }
+
+//         // Move camera to the first marker's position
+//         if (_markers.isNotEmpty) {
+//           mapController.animateCamera(
+//             CameraUpdate.newLatLng(_markers.first.position),
+//           );
+//         }
+//       }
+//     });
+//   }
+
+
+// }
+
+
+
+// void main() {
+//   runApp(MaterialApp(
+//     home: MapWithSearch(),
+//   ));
+// }
+
 // User? user = FirebaseAuth.instance.currentUser;
 //                                         // Add the logic to delete the document from Firestore
 //                                         FirebaseFirestore.instance
