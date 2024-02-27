@@ -39,27 +39,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int index2 = 0;
 
-  
-
   final controller = CarouselController();
 
- 
-
   String desc = '';
-  bool isLoading = true;
+ 
   // late List<dynamic> images;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    bool _isLoading = true;
+   void initState() {
+    super.initState();
+    // Simulate loading for 1 second
+    Future.delayed(const Duration(seconds:2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       drawer: const DrawerWidget(),
-      body: SingleChildScrollView(
+      body: 
+        _isLoading
+          ? const Center(
+              // Show loading indicator
+              child: CircularProgressIndicator(),
+            )
+      :SingleChildScrollView(
         child: Column(
           children: [
-            
             StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('TrekkingPlaces')
@@ -104,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                         fit: BoxFit.cover,
                                       )
                                     : const DecorationImage(
-                                        image: AssetImage('assets/load.png'),
+                                        image: AssetImage('assets/loading.png'),
                                         fit: BoxFit.cover,
                                       ),
                               ),
@@ -141,7 +152,6 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.of(context).push(
@@ -188,7 +198,6 @@ class _HomePageState extends State<HomePage> {
                               style: Styles.textBlack20,
                             ),
                           ),
-                         
                         ]);
                       },
                       options: CarouselOptions(
@@ -227,7 +236,9 @@ class _HomePageState extends State<HomePage> {
                         MaterialButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SeeAllPage(title: '',)));
+                                  builder: (context) => SeeAllPage(
+                                        title: '',
+                                      )));
                             },
                             color: CustomColors.primaryColor,
                             padding: EdgeInsets.all(5),
@@ -438,7 +449,6 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: getVerticalSize(15),
                     ),
-                    
                   ],
                 ),
               ),

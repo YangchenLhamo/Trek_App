@@ -103,10 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void updateData(String name, String email, String dateofbirth,
       String phoneNumber, String profileImageUrl) async {
     User? user = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance
-        .collection("Users")
-        .doc(user!.uid)
-        .update({
+    FirebaseFirestore.instance.collection("Users").doc(user!.uid).update({
       "name": nameController.text,
       "email": emailController.text,
       "Date of Birth": dateController.text,
@@ -186,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: Colors.white
                                             .withOpacity(0.8), // Shadow color
                                         spreadRadius: 5, // Spread radius
-                                        blurRadius:6, // Blur radius
+                                        blurRadius: 6, // Blur radius
                                         offset: Offset(0, 4), // Offset
                                       ),
                                     ],
@@ -450,7 +447,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                               );
 
-                             
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Details Updated'),

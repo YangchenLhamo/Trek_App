@@ -42,7 +42,16 @@ class _FavouritePageState extends State<FavouritePage> {
         .doc(user.uid)
         .update({'favourites': favData});
   }
-
+    bool _isLoading = true;
+   void initState() {
+    super.initState();
+    // Simulate loading for 1 second
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +64,12 @@ class _FavouritePageState extends State<FavouritePage> {
         centerTitle: true,
       ),
       body:
-       FutureBuilder(
+      _isLoading
+          ? Center(
+              // Show loading indicator
+              child: CircularProgressIndicator(),
+            )
+       :FutureBuilder(
         future:
             FirebaseFirestore.instance.collection('Users').doc(user?.uid).get(),
         builder: (context, snapUser) {
@@ -75,22 +89,6 @@ class _FavouritePageState extends State<FavouritePage> {
                         }).toList() ??
                         [];
 
-                
-                //  return likedPage.isEmpty // Check if likedPage is empty
-                // ? Center(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                   
-                //     children: [
-                //       Icon(
-                //         Icons.favorite_border_outlined,
-                //         size: getSize(150),
-                //         color:CustomColors.primaryColor.withOpacity(0.6)
-                //       ),
-                //       Text("Add Your Favourites!!", style: Styles.textBlack18GB,)
-                //     ],
-                //   ),
-                // )
                 return SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: ListView.builder(

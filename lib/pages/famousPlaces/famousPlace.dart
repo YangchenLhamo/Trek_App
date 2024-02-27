@@ -358,7 +358,6 @@ class _DestinationPageState extends State<DestinationPage> {
                                   SizedBox(
                                     height: getVerticalSize(10),
                                   ),
-                                  
                                   Row(
                                     children: [
                                       Row(
@@ -385,7 +384,10 @@ class _DestinationPageState extends State<DestinationPage> {
                                               widget.title);
                                         },
                                         color: CustomColors.primaryColor,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
                                         child: Row(
                                           children: [
                                             Text(
@@ -405,7 +407,6 @@ class _DestinationPageState extends State<DestinationPage> {
                                   SizedBox(
                                     height: getVerticalSize(10),
                                   ),
-                                  
                                   CommentsWidget(title: widget.title),
                                   SizedBox(
                                     height: getVerticalSize(20),
