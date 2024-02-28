@@ -46,7 +46,7 @@ class _FavouritePageState extends State<FavouritePage> {
    void initState() {
     super.initState();
     // Simulate loading for 1 second
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _isLoading = false;
       });
