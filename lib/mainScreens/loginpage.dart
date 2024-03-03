@@ -56,9 +56,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: true,
-      // ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -172,19 +169,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MaterialButton(
-                        onPressed: (){
-                           Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ForgotPasswordPage()));
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage()));
                         },
-                        child: Text('Forgot Password?',
-                            style: Styles.textBlack16),
+                        child:
+                            Text('Forgot Password?', style: Styles.textBlack16),
                       ),
                     ],
                   ),

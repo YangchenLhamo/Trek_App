@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:trekking_guide/pages/map/apikey.dart';
 import 'package:trekking_guide/pages/map/placeprediction.dart';
 import 'package:trekking_guide/pages/map/search_services.dart';
 import 'package:trekking_guide/utils/size_utils.dart';
+
+import 'package:http/http.dart' as http;
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -59,7 +62,8 @@ class _MapPageState extends State<MapPage> {
                           PatternItem.dash(10),
                           PatternItem.gap(2),
                         ],
-                        points: const [
+                        points:  [
+                          LatLng(_currentP!.latitude,_currentP!.longitude),
                           LatLng(27.7056, 85.3343),
                           LatLng(27.70564965199908, 85.33431116491556),
                           LatLng(27.705770761010275, 85.33463805913925),
@@ -83,7 +87,8 @@ class _MapPageState extends State<MapPage> {
                               PatternItem.dash(10),
                               PatternItem.gap(2),
                             ],
-                            points: const [
+                            points:  [
+                              LatLng(_currentP!.latitude,_currentP!.longitude),
                               LatLng(27.7056, 85.3343),
                               LatLng(27.708173, 85.333382),
                               LatLng(27.709949, 85.326257),
@@ -115,11 +120,11 @@ class _MapPageState extends State<MapPage> {
                       : {},
               markers: {
                 _userLocationMarker,
-                const Marker(
-                  markerId: MarkerId("temple"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: LatLng(27.7056, 85.3343),
-                ),
+                // const Marker(
+                //   markerId: MarkerId("temple"),
+                //   icon: BitmapDescriptor.defaultMarker,
+                //   position: LatLng(27.7056, 85.3343),
+                // ),
                 if (_pickedLocation != null)
                   Marker(
                     markerId: const MarkerId("pickedLocation"),
@@ -261,4 +266,5 @@ class _MapPageState extends State<MapPage> {
       );
     });
   }
+ 
 }

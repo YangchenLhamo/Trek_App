@@ -1,5 +1,5 @@
-import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:io';
+// import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:trekking_guide/components/bottomnav.dart';
 
 import 'package:trekking_guide/mainScreens/loginpage.dart';
-import 'package:trekking_guide/profileImage/save_image.dart';
 
 import 'package:trekking_guide/utils/custom_colors.dart';
 import 'package:trekking_guide/utils/size_utils.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trekking_guide/components/comments_log.dart';
+import 'package:trekking_guide/components/feedback_log.dart';
 import 'package:trekking_guide/components/dateformatter.dart';
 // import 'package:trekking_guide/services/comments_log.dart';
 import 'package:trekking_guide/utils/custom_colors.dart';
@@ -9,6 +9,7 @@ import 'package:trekking_guide/utils/size_utils.dart';
 import 'package:trekking_guide/utils/text_styles.dart';
 // Import your custom styles
 
+// ignore: must_be_immutable
 class CommentsWidget extends StatelessWidget {
   final String title;
 

@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trekking_guide/components/comment_files.dart';
-import 'package:trekking_guide/components/comments_log.dart';
+import 'package:trekking_guide/components/feedback_files.dart';
+import 'package:trekking_guide/components/feedback_log.dart';
 
 import 'package:trekking_guide/pages/ForAdminSide/update_trekkingplace.dart';
 import 'package:trekking_guide/pages/trekkingPlaces/expense_calc.dart';
